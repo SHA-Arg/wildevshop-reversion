@@ -132,7 +132,7 @@ app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "pochi")
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + os.path.join(app.instance_path, "app.db")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
-app.config["UPLOAD_FOLDER"] = os.path.join(app.root_path, "static", "uploads")
+app.config["UPLOAD_FOLDER"] = os.path.join(app.root_path, "app/static", "uploads")
 app.config["MAX_CONTENT_LENGTH"] = 8 * 1024 * 1024  # 8MB
 os.makedirs(app.instance_path, exist_ok=True)
 os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
