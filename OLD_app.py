@@ -371,7 +371,7 @@ def cart_add(product_id: int):
         cart[str(product_id)] = min(cart.get(str(product_id), 0) + qty, 50)
         cart_set(cart)
         flash(f"Agregado: {product.name} (x{qty})", "success")
-        return redirect(request.referrer or url_for("home"))
+        return redirect(request.referrer or url_for("shop.home"))
 
 
 @app.post("/cart/remove/<int:product_id>")
@@ -426,7 +426,7 @@ def checkout():
         items = cart_items()
         if not items:
             flash("Tu carrito está vacío.", "warning")
-            return redirect(url_for("home"))
+            return redirect(url_for("shop.home"))
 
         if request.method == "POST":
             name = request.form.get("name", "").strip()
@@ -479,7 +479,7 @@ def order_detail(order_id: int):
 def pago_exitoso():
     cart_set({})
     flash("Pago aprobado ✔️", "success")
-    return redirect(url_for("home"))
+    return redirect(url_for("shop.home"))
 
 @app.get("/pago/error")
 def pago_error():
@@ -497,7 +497,7 @@ def checkout_mp():
     items = cart_items()
     if not items:
         flash("Tu carrito está vacío.", "warning")
-        return redirect(url_for("home"))
+        return redirect(url_for("shop.home"))
 
     total = cart_total()
 
@@ -587,7 +587,7 @@ def login():
                 return redirect(url_for("login"))
             login_user(user)
             flash("Login OK.", "success")
-            return redirect(url_for("admin_dashboard") if user.is_admin else url_for("home"))
+            return redirect(url_for("admin_dashboard") if user.is_admin else url_for("shop.home"))
         return render_template("login.html")
 
 
@@ -596,7 +596,7 @@ def login():
 def logout():
         logout_user()
         flash("Sesión cerrada.", "info")
-        return redirect(url_for("home"))
+        return redirect(url_for("shop.home"))
 
 
 @app.route("/register", methods=["GET", "POST"])

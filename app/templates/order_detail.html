@@ -35,7 +35,7 @@
     </table>
   </div>
   <div class="mt-3 d-flex gap-2 justify-content-end">
-    <a class="btn btn-outline-light" href="{{ url_for('home') }}">Volver a tienda</a>
+    <a class="btn btn-outline-light" href="{{ url_for('shop.home') }}">Volver a tienda</a>
     {% if current_user.is_authenticated and current_user.is_admin %}
       <a class="btn btn-wildev" href="{{ url_for('admin_order_detail', order_id=order.id) }}">Ver en Admin</a>
     {% endif %}
