@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WildevShop</title>
+</head>
+<body>
+    <h1>Productos</h1>
+
+    {% for product in products %}
+        <p>{{ product.name }} - ${{ product.price }}</p>
+    {% endfor %}
+</body>
+</html>
