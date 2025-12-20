@@ -45,38 +45,38 @@
         <button class="btn btn-wildev" type="submit">Buscar</button>
       </form>
 
-      <ul class="navbar-nav ms-lg-3 align-items-lg-center">
-        <li class="nav-item me-lg-2">
-          <a class="nav-link" href="{{ url_for('cart.cart_view') }}">
-            Carrito
+{#      <ul class="navbar-nav ms-lg-3 align-items-lg-center">#}
+{#        <li class="nav-item me-lg-2">#}
+{#          <a class="nav-link" href="{{ url_for('cart.cart_view') }}">#}
+{#            Carrito#}
 {#            {% if cart_count() %}#}
-{#              <span class="badge rounded-pill text-bg-warning ms-1">{{ cart_count() }}</span>#}
+{#            <span class="badge rounded-pill text-bg-warning ms-1">{{ cart_count() }}</span>#}
 {#            {% endif %}#}
-          </a>
-        </li>
-
-        {% if current_user.is_authenticated %}
-         {% if current_user.is_admin %}
-  <li class="nav-item me-lg-2">
-    <a class="nav-link" href="{{ url_for('admin_dashboard') }}">Panel</a>
-  </li>
-{% endif %}
-
-
-          <li><a class="dropdown-item" href="{{ url_for('profile') }}">Mis datos</a></li>
-
-<li><hr class="dropdown-divider"></li>
-<li>
-  <form action="{{ url_for('logout') }}" method="post" class="px-3 py-2">
-    <button class="btn btn-outline-light w-100" type="submit">Salir</button>
-  </form>
-</li>
-
-        {% else %}
-          <li class="nav-item"><a class="nav-link" href="{{ url_for('login') }}">Login</a></li>
-          <li class="nav-item"><a class="nav-link" href="{{ url_for('register') }}">Crear cuenta</a></li>
-        {% endif %}
-      </ul>
+{#          </a>#}
+{#        </li>#}
+{##}
+{#        {% if current_user.is_authenticated %}#}
+{#         {% if current_user.is_admin %}#}
+{#  <li class="nav-item me-lg-2">#}
+{#    <a class="nav-link" href="{{ url_for('admin_dashboard') }}">Panel</a>#}
+{#  </li>#}
+{#{% endif %}#}
+{##}
+{##}
+{#          <li><a class="dropdown-item" href="{{ url_for('profile') }}">Mis datos</a></li>#}
+{##}
+{#<li><hr class="dropdown-divider"></li>#}
+{#<li>#}
+{#  <form action="{{ url_for('logout') }}" method="post" class="px-3 py-2">#}
+{#    <button class="btn btn-outline-light w-100" type="submit">Salir</button>#}
+{#  </form>#}
+{#</li>#}
+{##}
+{#        {% else %}#}
+{#          <li class="nav-item"><a class="nav-link" href="{{ url_for('login') }}">Login</a></li>#}
+{#          <li class="nav-item"><a class="nav-link" href="{{ url_for('register') }}">Crear cuenta</a></li>#}
+{#        {% endif %}#}
+{#      </ul>#}
     </div>
   </div>
 </nav>

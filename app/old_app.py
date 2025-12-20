@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 from werkzeug.utils import secure_filename
 from flask import Flask, render_template, request, redirect, url_for, flash, session, abort
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager, login_user, logout_user, login_required, current_user, UserMixin
+# from flask_login import LoginManager, login_user, logout_user, login_required, current_user, UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
@@ -22,7 +22,7 @@ app = Flask(__name__)
 
 def _categories_path():
     base_dir = os.path.dirname(os.path.abspath(__file__))
-    return os.path.join(base_dir, "data", "categories.json")
+    return os.path.join(base_dir, "../data", "categories.json")
 
 def load_categories():
     path = _categories_path()
@@ -132,7 +132,7 @@ app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "pochi")
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + os.path.join(app.instance_path, "app.db")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
-app.config["UPLOAD_FOLDER"] = os.path.join(app.root_path, "app/static", "uploads")
+app.config["UPLOAD_FOLDER"] = os.path.join(app.root_path, "static", "uploads")
 app.config["MAX_CONTENT_LENGTH"] = 8 * 1024 * 1024  # 8MB
 os.makedirs(app.instance_path, exist_ok=True)
 os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
@@ -212,9 +212,9 @@ def load_user(user_id: str):
         return db.session.get(User, int(user_id))
 
 
-def admin_required():
-        if not current_user.is_authenticated or not current_user.is_admin:
-            abort(403)
+# def admin_required():
+#         if not current_user.is_authenticated or not current_user.is_admin:
+#             abort(403)
 
 
 def money_ars(value: int) -> str:
@@ -428,22 +428,22 @@ def checkout():
             flash("Tu carrito está vacío.", "warning")
             return redirect(url_for("shop.home"))
 
-        if request.method == "POST":
-            name = request.form.get("name", "").strip()
-            email = request.form.get("email", "").strip()
-            if not name or not email:
-                flash("Completá nombre y email.", "danger")
-                return redirect(url_for("checkout"))
-
-            total = cart_total()
-            order = Order(
-                customer_name=name,
-                customer_email=email,
-                total=total,
-                user_id=current_user.id if current_user.is_authenticated else None
-            )
-            db.session.add(order)
-            db.session.flush()  # to get order.id
+        # if request.method == "POST":
+        #     name = request.form.get("name", "").strip()
+        #     email = request.form.get("email", "").strip()
+        #     if not name or not email:
+        #         flash("Completá nombre y email.", "danger")
+        #         return redirect(url_for("checkout"))
+        #
+        #     total = cart_total()
+        #     order = Order(
+        #         customer_name=name,
+        #         customer_email=email,
+        #         total=total,
+        #         user_id=current_user.id if current_user.is_authenticated else None
+        #     )
+        #     db.session.add(order)
+        #     db.session.flush()  # to get order.id
 
             # Create items
             for it in items:
@@ -464,10 +464,10 @@ def checkout():
             return redirect(url_for("order_detail", order_id=order.id))
 
         # Prefill
-        default_name = current_user.username if current_user.is_authenticated else ""
-        default_email = current_user.email if current_user.is_authenticated else ""
-        return render_template("checkout.html", items=items, total=cart_total(), default_name=default_name, default_email=default_email)
-
+        # default_name = current_user.username if current_user.is_authenticated else ""
+        # default_email = current_user.email if current_user.is_authenticated else ""
+        # return render_template("checkout.html", items=items, total=cart_total(), default_name=default_name, default_email=default_email)
+        #
 
 @app.get("/order/<int:order_id>")
 def order_detail(order_id: int):
@@ -501,14 +501,14 @@ def checkout_mp():
 
     total = cart_total()
 
-    order = Order(
-        customer_name=(current_user.username if current_user.is_authenticated else "Cliente"),
-        customer_email=(current_user.email if current_user.is_authenticated else "sin-email@local"),
-        total=total,
-        user_id=current_user.id if current_user.is_authenticated else None
-    )
-    db.session.add(order)
-    db.session.flush()
+    # order = Order(
+    #     customer_name=(current_user.username if current_user.is_authenticated else "Cliente"),
+    #     customer_email=(current_user.email if current_user.is_authenticated else "sin-email@local"),
+    #     total=total,
+    #     user_id=current_user.id if current_user.is_authenticated else None
+    # )
+    # db.session.add(order)
+    # db.session.flush()
 
     for it in items:
         p = it["product"]
@@ -838,39 +838,39 @@ def admin_user_edit(user_id: int):
 
 
 @app.post("/admin/users/<int:user_id>/delete")
-@login_required
-def admin_user_delete(user_id: int):
-        admin_required()
-        if current_user.id == user_id:
-            flash("No podés borrar tu propio usuario mientras estás logueado.", "warning")
-            return redirect(url_for("admin_users"))
-        u = db.session.get(User, user_id)
-        if not u:
-            abort(404)
-        db.session.delete(u)
-        db.session.commit()
-        flash("Usuario eliminado.", "info")
-        return redirect(url_for("admin_users"))
+# @login_required
+# def admin_user_delete(user_id: int):
+#         admin_required()
+#         if current_user.id == user_id:
+#             flash("No podés borrar tu propio usuario mientras estás logueado.", "warning")
+#             return redirect(url_for("admin_users"))
+#         u = db.session.get(User, user_id)
+#         if not u:
+#             abort(404)
+#         db.session.delete(u)
+#         db.session.commit()
+#         flash("Usuario eliminado.", "info")
+#         return redirect(url_for("admin_users"))
 
 
-    # Orders list
-@app.get("/admin/orders")
-@login_required
-def admin_orders():
-        admin_required()
-        orders = Order.query.order_by(Order.created_at.desc()).limit(200).all()
-        return render_template("admin/orders.html", orders=orders)
-
-
-@app.get("/admin/orders/<int:order_id>")
-@login_required
-def admin_order_detail(order_id: int):
-        admin_required()
-        order = db.session.get(Order, order_id)
-        if not order:
-            abort(404)
-        return render_template("admin/order_detail.html", order=order)
-
+#     # Orders list
+# @app.get("/admin/orders")
+# @login_required
+# def admin_orders():
+#         admin_required()
+#         orders = Order.query.order_by(Order.created_at.desc()).limit(200).all()
+#         return render_template("admin/orders.html", orders=orders)
+#
+#
+# @app.get("/admin/orders/<int:order_id>")
+# @login_required
+# def admin_order_detail(order_id: int):
+#         admin_required()
+#         order = db.session.get(Order, order_id)
+#         if not order:
+#             abort(404)
+#         return render_template("admin/order_detail.html", order=order)
+#
 
     # ------------------ Errors ------------------
 
