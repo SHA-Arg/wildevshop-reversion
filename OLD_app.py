@@ -235,10 +235,10 @@ def cart_get() -> dict[str, int]:
 def cart_set(cart: dict[str, int]) -> None:
         session["cart"] = cart
         session.modified = True
-
-def cart_count() -> int:
-        cart = cart_get()
-        return sum(cart.values()) if cart else 0
+#
+# def cart_count() -> int:
+#         cart = cart_get()
+#         return sum(cart.values()) if cart else 0
 
 
 def cart_items():
