@@ -4,3 +4,4 @@ __pycache__/
 instance/
 .env
 .idea/
+app/old_app.py
